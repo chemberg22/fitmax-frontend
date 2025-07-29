@@ -1,0 +1,112 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitMax - Editar Modalidade</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <a href='index.html'><h1>FitMax</h1></a>
+    </header>
+
+    <main>
+        <section class="profile">
+            <div class="profile-icon">
+                <button onclick="logout()"><img class="icon-image" src="img/logout-button.png"></img></button>
+            </div>
+
+            <div class="profile-content">
+                <div class="profile-content1">
+                    <img class="user-image" src="img/user-image.png"></img>
+                </div>
+                <div class="profile-content2">
+                    <h2 id="user-role"></h2>
+                </div>
+                <div class="profile-content3">
+                    <h5 id="user-name"></h5>
+                </div>
+            </div>
+
+            <div class="profile-icon">
+                <img class="icon-image" src="img/notification-button.png">
+                <label class="switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </section>
+
+        <section class="main-menu">
+            <h1>Editar Modalidade</h1>
+        </section>
+
+        <div class="data-container">
+            <div class="data-item">
+                <span class="data-label">Nome:</span>
+                <input type="text" id="nome" class="data-input" value="">
+            </div>
+            <div class="data-item">
+                <span class="data-label">Descrição:</span>
+                <input type="text" id="descricao" class="data-input" value="">
+            </div>
+            <div class="data-item">
+                <span class="data-label">Status:</span>
+                <select id="status" class="data-input">
+                    <option value="ativo">Ativo</option>
+                    <option value="inativo">Inativo</option>
+                </select>
+            </div>
+            <div class="data-item">
+                    <span class="data-label">Agendamentos múltiplos?</span>
+                    <select id="agendamentos_multiplos" class="data-input">
+                        <option value="false">Não</option>
+                        <option value="true">Sim</option>
+                    </select>
+            </div>
+            <div class="data-item" id="capacidade_maxima_container">
+                    <span class="data-label">Capacidade máxima:</span>
+                    <select id="capacidade_maxima" name="capacidade_maxima" class="data-input">
+                        <option value="2">2</option>
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                        <option value="20">20</option>
+                    </select>
+            </div>
+            <div class="button-group">
+                <button class="save-button" onclick="saveModalityData()">Salvar</button>
+                <button class="cancel-button" onclick="cancelEdit()">Cancelar</button>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/fetchLoggedUser.js"></script>
+    <script src="js/auxGerente.js"></script>
+    <script src="js/edit-modality.js"></script>
+    <script>
+        // Inicialização após o carregamento do DOM
+        document.addEventListener('DOMContentLoaded', () => {
+        // Loga o início da função
+        console.log('Evento DOMContentLoaded disparado');
+        // Verifica o checkRole
+        if (checkRole()) {        
+            // Preenche os dados do usuário no cabeçalho
+            fetchLoggedUser();
+            // Preenche os dados da modalidade a ser editada
+            fetchModalityData();
+        }
+
+        // Alterna a visibilidade dos valores da capacidade máxima
+        toggleCapacidadeMaxima();
+
+        // Adiciona o ouvinte de mudança no select de agendamentos múltiplos
+        const selectAgendamentos = document.getElementById('agendamentos_multiplos');
+        if (selectAgendamentos) {
+            selectAgendamentos.addEventListener('change', toggleCapacidadeMaxima);
+        }
+  });
+    </script>
+</body>
+</html>

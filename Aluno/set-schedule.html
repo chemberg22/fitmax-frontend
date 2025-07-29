@@ -1,0 +1,130 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>FitMax - Horários</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <header>
+        <a href="index.html"><h1>FitMax</h1></a>
+    </header>
+
+    <main>
+        <section class="profile">
+            <div class="profile-icon">
+                <button onclick="logout()"><img class="icon-image" src="img/logout-button.png"></button>
+            </div>
+
+            <div class="profile-content">
+                <div class="profile-content1">
+                    <img class="user-image" src="img/user-image.png"></img>
+                </div>
+                <div class="profile-content2">
+                    <h2 id="user-role">Carregando...</h2>
+                </div>
+                <div class="profile-content3">
+                    <h5 id="user-name">Carregando...</h5>
+                </div>
+            </div>
+
+            <div class="profile-icon">
+                <img class="icon-image" src="img/notification-button.png">
+                <label class="switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </section>
+
+        <section class="main-menu">
+            <h1>Horários Disponíveis</h1>
+        </section>
+
+        <section class="class-schedule">
+            <div class="filter-container">
+                <span class="data-label">Unidade:</span>
+                <select id="unidade-filter" class="data-input">
+                    <option value="">Selecione uma unidade</option>
+                    <!-- Unidades serão preenchidas dinamicamente -->
+                </select>
+                <span class="data-label">Modalidade:</span>
+                <select id="modalidade" class="data-input">
+                    <option value="">Selecione uma modalidade</option>
+                    <!-- Unidades serão preenchidas dinamicamente -->
+                </select>
+                <label for="data" class="data-label">Data:</label>
+                <input type="date" id="data" class="data-input" min=""/>
+            </div>
+        </section>
+
+        <section class="personal-list">
+            <h2>Profissional:</h2>
+            <div class="personals-container" id="personals-container">
+                <p>Selecione uma unidade para ver os personais disponíveis.</p>
+                <!-- Personals serão preenchidos dinamicamente aqui -->
+            </div>
+        </section>
+
+        <section class="data-list" id="horarios-section">
+            <!-- Horários serão preenchidos dinamicamente aqui -->
+        </section>
+    </main>
+
+    <script src="js/fetchLoggedUser.js"></script>
+    <script src="js/auxAluno.js"></script>
+    <script src="js/set-schedule.js"></script>
+    <script>
+        // Inicialização após o carregamento do DOM
+        document.addEventListener("DOMContentLoaded", async () => {
+            // Loga o início da função
+            console.log('Evento DOMContentLoaded disparado');
+            // Verifica o checkRole
+            if (checkRole()) {
+                // Preenche os dados do usuário no cabeçalho
+                await fetchLoggedUser();
+                // Preenche o filtro de unidades
+                await loadUnidades();
+                // Preenche o filtro de modalidades
+                await fetchModalidades();
+                // Preenche os personals disponíveis
+                await fetchPersonals();
+
+                // Função debounce para evitar mais de uma chamada de funções em eventos rápidos (como digitação ou troca de filtros)
+                const debounce = (func, wait) => {
+                    let timeout;
+                    return (...args) => {
+                        clearTimeout(timeout);
+                        timeout = setTimeout(() => func.apply(this, args), wait);
+                    };
+                };
+
+                // Referência aos campos do HTML usados para os filtros
+                const unidadeFilter = document.getElementById('unidade-filter');
+                const modalidadeSelect = document.getElementById('modalidade');
+                const dataInput = document.getElementById('data');
+
+                // Adiciona ouvinte para quando o filtro de unidade mudar, busca os personais daquela unidade com debounce
+                unidadeFilter.addEventListener('change', debounce(() => {
+                    const unidadeId = unidadeFilter.value;
+                    fetchPersonals(unidadeId);
+                }, 300));
+
+                // Adiciona ouvinte para quando o filtro de modalidade mudar, busca os horários disponíveis com debounce
+                modalidadeSelect.addEventListener('change', debounce(fetchHorarios, 300));
+
+                // Adiciona ouvinte para quando a data mudar, busca os horários disponíveis com debounce
+                dataInput.addEventListener('change', debounce(fetchHorarios, 300));
+
+                // Define o valor padrão do input de data como a data atual no formato AAAA-MM-DD
+                const localToday = new Date();
+                const today = localToday.toLocaleDateString('sv-SE'); // Retorna formato YYYY-MM-DD
+                dataInput.value = today;
+                // Define o mínimo permitido no input de data como a data de hoje
+                dataInput.min = today;
+            }
+        });
+    </script>
+</body>
+</html>

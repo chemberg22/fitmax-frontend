@@ -1,0 +1,118 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitMax - Dar Feedback</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <a href='index.html'><h1>FitMax</h1></a>
+    </header>
+
+    <main>
+        <section class="profile">
+            <div class="profile-icon">
+                <button onclick="logout()"><img class="icon-image" src="img/logout-button.png" alt="Logout"></button>
+            </div>
+
+            <div class="profile-content">
+                <div class="profile-content1">
+                    <img class="user-image" src="img/user-image.png" alt="Imagem de Perfil do Usuário">
+                </div>
+                <div class="profile-content2">
+                    <h2 id="user-role">Carregando...</h2>
+                </div>
+                <div class="profile-content3">
+                    <h5 id="user-name">Carregando...</h5>
+                </div>
+            </div>
+
+            <div class="profile-icon">
+                <img class="icon-image" src="img/notification-button.png" alt="Notificações">
+                <label class="switch" for="notification-toggle">
+                    <input type="checkbox" id="notification-toggle" aria-label="Ativar/desativar notificações">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </section>
+
+        <section class="main-menu">
+            <h1>Dar Feedback</h1>
+        </section>
+
+        <div class="data-container">
+            <div class="data-item">
+                <span class="data-label">Assunto:</span>
+                <select id="assunto" class="data-input" required>
+                    <option value="" disabled selected>Selecione um assunto</option>
+                    <option value="Qualidade da Aula">Qualidade da Aula</option>
+                    <option value="Atendimento do Personal">Atendimento do Personal</option>
+                    <option value="Estrutura da Academia">Estrutura da Academia</option>
+                    <option value="Pontualidade">Pontualidade</option>
+                    <option value="Motivação e Engajamento">Motivação e Engajamento</option>
+                    <option value="Adequação do Treino">Adequação do Treino</option>
+                    <option value="Segurança e Técnica">Segurança e Técnica</option>
+                    <option value="Satisfação Geral">Satisfação Geral</option>
+                </select>
+            </div>
+            <div class="data-item-feedback">
+                <span class="data-label-feedback">Comentário:</span>
+                <textarea id="comentario" class="data-input-feedback" maxlength="500" required></textarea>
+            </div>
+            <div class="data-item">
+                <span class="data-label">Nota:</span>
+                <select id="nota" class="data-input" required>
+                    <option value="" disabled selected>Selecione uma nota</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
+            </div>
+            <input type="hidden" id="aluno_id">
+            <input type="hidden" id="agendamento_id">
+            <div class="button-group">
+                <button class="action-button" onclick="handleFeedbackSubmission()">Enviar</button>
+                <button class="action-button cancel" onclick="cancelFeedback()">Cancelar</button>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/fetchLoggedUser.js"></script>
+    <script src="js/auxAluno.js"></script>
+    <script src="js/feedback.js"></script>
+    <script>
+        // Inicialização após o carregamento do DOM
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Loga o início da função
+            console.log('Evento DOMContentLoaded disparado');
+            // Verifica o checkRole
+            if (checkRole()) {
+                // Preenche os dados do usuário no cabeçalho
+                const userData = await fetchLoggedUser();
+                // Valida se o agendamento está vinculado ao usuário logado
+                if (userData) {
+                // Preenche o campo aluno_id com o ID do usuário
+                const alunoIdElement = document.getElementById('aluno_id');
+                if (alunoIdElement) {
+                    alunoIdElement.value = userData.id;
+                    console.log('Campo aluno_id preenchido com:', userData.id);
+                } else {
+                    console.error('Elemento aluno_id não encontrado no DOM');
+                }
+                // Valida o agendamento
+                await validateAppointment(userData.id);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

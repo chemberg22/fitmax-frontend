@@ -1,0 +1,106 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitMax - Home</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <a href='index.html'><h1>FitMax</h1></a>
+    </header>
+
+    <main>
+        <section class="profile">
+            <div class="profile-icon">
+                <button onclick="logout()"><img class="icon-image" src="img\logout-button.png"></button>
+            </div>
+
+            <div class="profile-content">
+                <div class="profile-content1">
+                    <img class="user-image" src="img\user-image.png"></img>
+                </div>
+                <div class="profile-content2">
+                    <h2 id="user-role"></h2>
+                </div>
+                <div class="profile-content3">
+                    <h5 id="user-name"></h5>
+                </div>
+            </div>
+
+            <div class="profile-icon">
+                <img class="icon-image" src="img\notification-button.png">
+                <label class="switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </section>
+
+        <section class="main-menu">
+            <h1>Menu</h1>
+        </section>
+
+        <section class="menu-items">
+            <div class="menu-item">
+                <span class="symbol left">⪯</span>
+                <a href="userdata.html">Meus dados</a>
+                <span class="symbol right">⪰</span>
+            </div>
+            <div class="menu-item">
+                <span class="symbol left">⪯</span>
+                <a href="manager.html">Usuários</a>
+                <span class="symbol right">⪰</span>
+            </div>
+            <div class="menu-item">
+                <span class="symbol left">⪯</span>
+                <a href="manager-modalities.html">Modalidades</a>
+                <span class="symbol right">⪰</span>
+            </div>
+            <div class="menu-item">
+                <span class="symbol left">⪯</span>
+                <a href="manager-units.html">Unidades</a>
+                <span class="symbol right">⪰</span>
+            </div>
+            <div class="menu-item">
+                <span class="symbol left">⪯</span>
+                <a href="payments.html">Pagamentos</a>
+                <span class="symbol right">⪰</span>
+            </div>
+            <div class="menu-item">
+                <span class="symbol left">⪯</span>
+                <a href="schedule.html">Horários</a>
+                <span class="symbol right">⪰</span>
+            </div>
+            <div class="menu-item">
+                <span class="symbol left">⪯</span>
+                <a href="appointments.html">Agendamentos</a>
+                <span class="symbol right">⪰</span>
+            </div>
+            <div class="menu-item">
+                <span class="symbol left">⪯</span>
+                <a href="reports.html">Relatórios</a>
+                <span class="symbol right">⪰</span>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/fetchLoggedUser.js"></script>
+    <script src="js/auxGerente.js"></script>
+    <script>
+        // Inicialização após o carregamento do DOM
+        document.addEventListener('DOMContentLoaded', () => {
+            // Loga o início da função
+            console.log('Evento DOMContentLoaded disparado');
+            // Verifica o checkRole
+            if (checkRole()) {
+                // Loga o retorno de checkRole
+                console.log('checkRole retornou true');
+                // Preenche os dados do usuário no cabeçalho
+                fetchLoggedUser();
+            }
+        });
+    </script>
+</body>
+</html>

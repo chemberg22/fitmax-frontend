@@ -1,0 +1,72 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitMax - Meus dados</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <a href='index.html'><h1>FitMax</h1></a>
+    </header>
+
+    <main>
+        <section class="profile">
+            <div class="profile-icon">
+                <button onclick="logout()"><img class="icon-image" src="img/logout-button.png"></button>
+            </div>
+
+            <div class="profile-content">
+                <div class="profile-content1">
+                    <img class="user-image" src="img/user-image.png">
+                </div>
+                <div class="profile-content2">
+                    <h2 id="user-role"></h2>
+                </div>
+                <div class="profile-content3">
+                    <h5 id="user-name"></h5>
+                </div>
+            </div>
+
+            <div class="profile-icon">
+                <img class="icon-image" src="img/notification-button.png">
+                <label class="switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </section>
+
+        <section class="main-menu">
+            <h1>Meus Dados</h1>
+        </section>
+
+        <div class="data-container">
+            <div class="data-item"><span class="data-label">Nome completo:</span> <div class="data-info" id="nome-completo"></div></div>
+            <div class="data-item"><span class="data-label">CPF:</span> <div class="data-info" id="cpf"></div></div>
+            <div class="data-item"><span class="data-label">Data de nascimento:</span> <div class="data-info" id="data-nascimento"></div></div>
+            <div class="data-item"><span class="data-label">Gênero:</span> <div class="data-info" id="genero"></div></div>
+            <div class="data-item"><span class="data-label">E-mail:</span> <div class="data-info" id="email"></div></div>
+            <div class="data-item"><span class="data-label">Telefone:</span> <div class="data-info" id="telefone"></div></div>
+            <div class="data-item"><span class="data-label">Endereço:</span> <div class="data-info" id="endereco"></div></div>
+            <button class="edit-button" onclick="window.location.href='edit-user.html'">Editar</button>
+        </div>
+    </main>
+
+    <script src="js/auxAluno.js"></script>
+    <script src="js/userData.js"></script>
+    <script>
+        // Inicialização após o carregamento do DOM
+        document.addEventListener('DOMContentLoaded', () => {
+            // Loga o início da função
+            console.log('Evento DOMContentLoaded disparado');
+            // Verifica o checkRole
+            if (checkRole()) {
+                // Preenche os dados do usuário
+                fetchUserData();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitMax - Editar Usuário</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <a href='index.html'><h1>FitMax</h1></a>
+    </header>
+
+    <main>
+        <section class="profile">
+            <div class="profile-icon">
+                <button onclick="logout()"><img class="icon-image" src="img/logout-button.png" alt="Logout"></button>
+            </div>
+
+            <div class="profile-content">
+                <div class="profile-content1">
+                    <img class="user-image" src="img/user-image.png" alt="Imagem de Perfil do Usuário">
+                </div>
+                <div class="profile-content2">
+                    <h2 id="user-role">Carregando...</h2>
+                </div>
+                <div class="profile-content3">
+                    <h5 id="user-name">Carregando...</h5>
+                </div>
+            </div>
+
+            <div class="profile-icon">
+                <img class="icon-image" src="img/notification-button.png" alt="Notificações">
+                <label class="switch">
+                    <input type="checkbox" id="notification-toggle" aria-label="Ativar/desativar notificações">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </section>
+
+        <section class="main-menu">
+            <h1>Editar Usuário</h1>
+        </section>
+
+        <div class="data-container">
+            <div class="data-item">
+                <span class="data-label">Nome completo:</span>
+                <input type="text" id="nome-completo" class="data-input" value="">
+            </div>
+            <div class="data-item">
+                <span class="data-label">CPF:</span>
+                <div class="data-info" id="cpf"></div>
+            </div>
+            <div class="data-item">
+                <span class="data-label">Data de nascimento:</span>
+                <div class="data-info" id="data-nascimento"></div>
+            </div>
+            <div class="data-item">
+                <span class="data-label">Gênero:</span>
+                <div class="data-info" id="genero"></div>
+            </div>
+            <div class="data-item">
+                <span class="data-label">E-mail:</span>
+                <input type="email" id="email" class="data-input" value="">
+            </div>
+            <div class="data-item">
+                <span class="data-label">Telefone:</span>
+                <input type="text" maxlength="11" id="telefone" class="data-input" value="">
+            </div>
+            <div class="data-item">
+                <span class="data-label">Endereço:</span>
+                <input type="text" id="endereco" class="data-input" value="">
+            </div>
+            <div class="data-item" id="plano-container" style="display: none;">
+                <span class="data-label">Plano:</span>
+                <select id="plano" class="data-input">
+                    <option value="black">Black</option>
+                    <option value="gold">Gold</option>
+                    <option value="premium">Premium</option>
+                </select>
+            </div>
+            <div class="data-item" id="turno-container" style="display: none;">
+                <span class="data-label">Turno:</span>
+                <select id="turno" class="data-input">
+                    <option value="manha">Manhã</option>
+                    <option value="tarde">Tarde</option>
+                </select>
+            </div>
+            <div class="data-item" id="unidade-container" style="display: none;">
+                <span class="data-label">Unidade:</span>
+                <select id="unidade" class="data-input">
+                    <!-- Preencher via JavaScript -->
+                </select>
+            </div>
+            <div class="data-item">
+                <span class="data-label">Senha:</span>
+                <input type="password" id="senha" class="data-input" placeholder="Digite a nova senha (opcional)">
+            </div>
+            <div class="button-group">
+                <button class="save-button" onclick="saveUserData()">Salvar</button>
+                <button class="cancel-button" onclick="cancelEdit()">Cancelar</button>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/fetchLoggedUser.js"></script>
+    <script src="js/auxGerente.js"></script>
+    <script src="js/editIdUser.js"></script>
+    <script>
+        // Inicialização após o carregamento do DOM
+        document.addEventListener('DOMContentLoaded', () => {
+            // Loga o início da função
+            console.log('Evento DOMContentLoaded disparado');
+            // Verifica o checkRole
+            if (checkRole()) {
+                // Preenche os dados do usuário no cabeçalho
+                fetchLoggedUser();
+                // Preenche os dados do usuário a ser editado
+                fetchUserData();
+            }
+        });
+    </script>
+</body>
+</html>

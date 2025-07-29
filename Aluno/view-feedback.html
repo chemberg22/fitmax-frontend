@@ -1,0 +1,93 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitMax - Visualizar Feedback</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <a href='index.html'><h1>FitMax</h1></a>
+    </header>
+
+    <main>
+        <section class="profile">
+            <div class="profile-icon">
+                <button onclick="logout()"><img class="icon-image" src="img/logout-button.png" alt="Logout"></button>
+            </div>
+
+            <div class="profile-content">
+                <div class="profile-content1">
+                    <img class="user-image" src="img/user-image.png" alt="Imagem de Perfil do Usuário">
+                </div>
+                <div class="profile-content2">
+                    <h2 id="user-role">Carregando...</h2>
+                </div>
+                <div class="profile-content3">
+                    <h5 id="user-name">Carregando...</h5>
+                </div>
+            </div>
+
+            <div class="profile-icon">
+                <img class="icon-image" src="img/notification-button.png" alt="Notificações">
+                <label class="switch" for="notification-toggle">
+                    <input type="checkbox" id="notification-toggle" aria-label="Ativar/desativar notificações">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </section>
+
+        <section class="main-menu">
+            <h1>Visualizar Feedback</h1>
+        </section>
+
+        <div class="data-container">
+            <div class="data-item">
+                <span class="data-label">Modalidade:</span>
+                <div class="data-info" id="modalidade-nome">Carregando...</div>
+            </div>
+            <div class="data-item">
+                <span class="data-label">Personal:</span>
+                <div class="data-info" id="personal-nome">Carregando...</div>
+            </div>
+            <div class="data-item">
+                <span class="data-label">Assunto:</span>
+                <div class="data-info" id="assunto">Carregando...</div>
+            </div>
+            <div class="data-item">
+                <span class="data-label">Comentário:</span>
+                <div class="data-info" id="comentario">Carregando...</div>
+            </div>
+            <div class="data-item">
+                <span class="data-label">Nota:</span>
+                <div class="data-info" id="nota">Carregando...</div>
+            </div>
+            <div class="button-group">
+                <button class="action-button" onclick="voltar()">Voltar</button>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/fetchLoggedUser.js"></script>
+    <script src="js/auxAluno.js"></script>
+    <script src="js/view-feedback.js"></script>
+    <script>
+        // Inicialização após o carregamento do DOM
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Loga o início da função
+            console.log('Evento DOMContentLoaded disparado');
+            // Verifica o checkRole
+            if (checkRole()) {
+                // Preenche os dados do usuário no cabeçalho
+                const userData = await fetchLoggedUser();
+                // Verifica se o ID do aluno aluno está vinculado ao agendamento
+                if (userData) {
+                    // Preenche os dados do feedback
+                    await fetchFeedbackDetails(userData.id);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

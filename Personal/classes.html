@@ -1,0 +1,84 @@
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitMax - Próximas Aulas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <a href='/Personal/index.html'><h1>FitMax</h1></a>
+    </header>
+
+    <main>
+        <section class="profile">
+            <div class="profile-icon">
+                <button onclick="logout()"><img class="icon-image" src="img/logout-button.png"></button>
+            </div>
+
+            <div class="profile-content">
+                <div class="profile-content1">
+                    <img class="user-image" src="img/user-image.png"></img>
+                </div>
+                <div class="profile-content2">
+                    <h2 id="user-role">Carregando...</h2>
+                </div>
+                <div class="profile-content3">
+                    <h5 id="user-name">Carregando...</h5>
+                </div>
+            </div>
+
+            <div class="profile-icon">
+                <img class="icon-image" src="img/notification-button.png">
+                <label class="switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </section>
+
+        <section class="main-menu">
+            <h1>Meus agendamentos</h1>
+        </section>
+
+        <section class="class-schedule">
+            <div class="filter-container">
+                <select id="modalidade-filter" onchange="fetchAppointments()" class="data-input">
+                    <option value="">Todas as modalidades</option>
+                    <!-- Modalidades serão preenchidas dinamicamente -->
+                </select>
+                <input type="date" id="data-filter" onchange="fetchAppointments()" class="data-input-personal">
+            </div>
+            <div id="appointments-list">
+                <!-- Agendamentos serão preenchidos dinamicamente aqui -->
+            </div>
+        </section>
+    </main>
+
+    <script src="js/fetchLoggedUser.js"></script>
+    <script src="js/auxPersonal.js"></script>
+    <script src="js/classes.js"></script>
+    <script>
+        // Inicialização após o carregamento do DOM
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Loga o início da função
+            console.log('Evento DOMContentLoaded disparado');
+            // Verifica o checkRole
+            if (checkRole()) {
+                const userData = await fetchLoggedUser();
+                // Preenche os dados do usuário no cabeçalho
+                if (userData) {
+                    // Preenche o filtro de modalidades
+                    await loadModalidades();
+                    // Define a data atual como padrão
+                    const today = new Date().toISOString().split('T')[0];
+                    document.getElementById('data-filter').value = today;
+                    // Preenche a lista de agendamentos
+                    await fetchAppointments();
+                }
+            }
+        });
+    </script>
+</body>
+</html>

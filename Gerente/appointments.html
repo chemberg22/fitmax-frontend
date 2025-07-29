@@ -1,0 +1,89 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitMax - Agendamentos</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Inclua o CSS do FullCalendar -->
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css' rel='stylesheet' />
+</head>
+
+<body>
+    <header>
+        <a href='index.html'><h1>FitMax</h1></a>
+    </header>
+
+    <main>
+        <section class="profile">
+            <div class="profile-icon">
+                <button onclick="logout()"><img class="icon-image" src="img/logout-button.png" alt="Logout"></button>
+            </div>
+
+            <div class="profile-content">
+                <div class="profile-content1">
+                    <img class="user-image" src="img/user-image.png" alt="Imagem de Perfil do Usuário">
+                </div>
+                <div class="profile-content2">
+                    <h2 id="user-role">Carregando...</h2>
+                </div>
+                <div class="profile-content3">
+                    <h5 id="user-name">Carregando...</h5>
+                </div>
+            </div>
+
+            <div class="profile-icon">
+                <img class="icon-image" src="img/notification-button.png" alt="Notificações">
+                <label class="switch">
+                    <input type="checkbox" id="notification-toggle" aria-label="Ativar/desativar notificações">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </section>
+
+        <section class="main-menu">
+            <h1>Agendamentos</h1>
+        </section>
+
+        <section>
+            <div id="calendar"></div>
+        </section>
+    </main>
+
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js'></script>
+    <script src="js/fetchLoggedUser.js"></script>
+    <script src="js/auxGerente.js"></script>
+    <script>
+        // Inicialização após o carregamento do DOM
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Loga o início da função
+            console.log('Evento DOMContentLoaded disparado');
+            // Verifica o checkRole
+            if (checkRole()) {
+                // Preenche os dados do usuário no cabeçalho
+                await fetchLoggedUser();
+
+                // Seleciona o elemento onde o calendário será renderizado
+                const calendarEl = document.getElementById('calendar');
+                // Cria uma nova instância do calendário usando a biblioteca FullCalendar
+                const calendar = new FullCalendar.Calendar(calendarEl, {
+                    initialView: 'dayGridMonth', // Define a visualização inicial como grade mensal
+                    locale: 'pt-br', // Configura o idioma para português
+                    // Define quais botões devem aparecer no cabeçalho do calendário
+                    headerToolbar: {
+                        left: 'prev,next today', // Botões para navegar entre os meses
+                        center: 'title', // Título central com o mês/ano atual
+                        right: 'dayGridMonth' // Habilita apenas a visualização mensal
+                    },
+                    // Define o redirecionamento ao clicar em uma data e loga a data
+                    dateClick: function(info) {
+                        console.log('Data clicada:', info.dateStr);
+                        window.location.href = 'data-view.html?date=' + info.dateStr;
+                    }
+                });
+                // Renderiza o calendário na tela
+                calendar.render();
+            }
+        });
+    </script>
+</body>
+</html>

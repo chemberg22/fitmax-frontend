@@ -1,0 +1,193 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitMax - Horários</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <a href="index.html"><h1>FitMax</h1></a>
+    </header>
+
+    <main>
+        <section class="profile">
+            <div class="profile-icon">
+                <button onclick="logout()"><img class="icon-image" src="img/logout-button.png" alt="Logout"></button>
+            </div>
+
+            <div class="profile-content">
+                <div class="profile-content1">
+                    <img class="user-image" src="img/user-image.png" alt="Imagem de Perfil do Usuário">
+                </div>
+                <div class="profile-content2">
+                    <h2 id="user-role">Carregando...</h2>
+                </div>
+                <div class="profile-content3">
+                    <h5 id="user-name">Carregando...</h5>
+                </div>
+            </div>
+
+            <div class="profile-icon">
+                <img class="icon-image" src="img/notification-button.png" alt="Notificações">
+                <label class="switch">
+                    <input type="checkbox" id="notification-toggle" aria-label="Ativar/desativar notificações">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </section>
+
+        <section class="main-menu">
+            <h1>Horários</h1>
+        </section>
+
+        <section>
+            <!-- Parte 1: Barra de busca com filtros superiores para visualização -->
+            <div class="search-bar-table">
+                <div class="search-bar-filters">
+                    <select id="unidade-filter" class="data-input" aria-label="Filtrar por unidade">
+                        <option value="" disabled selected>Selecione uma Unidade</option>
+                    </select>
+                    <input type="date" id="data-inicio" class="data-input" aria-label="Data Início">
+                    <input type="date" id="data-fim" class="data-input" aria-label="Data Fim">
+                    <select id="personal-filter" class="data-input" aria-label="Filtrar por personal">
+                        <option value="" disabled selected>Selecione um Personal</option>
+                    </select>
+                    <button class="save-button" onclick="loadAgendamentos()">Filtrar</button>
+                </div>
+                <div class="search-bar-actions">
+                    <button class="save-button" onclick="showAddAgendamentoForm()">Adicionar Agendamento</button>
+                    <button class="save-button" onclick="showRemoveAgendamentoForm()">Remover Agendamento</button>
+                    <button class="save-button" onclick="showAddAgendamentoMassaForm()">Adicionar em Massa</button>
+                    <button class="save-button" onclick="showRemoveAgendamentoMassaForm()">Remover em Massa</button>
+                </div>
+            </div>
+
+            <!-- Parte 2: Tabela de agendamentos -->
+            <div class="schedule-table">
+                <table class="agendamento-table">
+                    <thead id="agendamento-table-head">
+                        <tr>
+                            <th>Horário</th>
+                            <!-- Colunas de datas preenchidas dinamicamente -->
+                        </tr>
+                    </thead>
+                    <tbody id="agendamento-table-body">
+                        <!-- Preenchido dinamicamente via JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Parte 3: Formulário para adicionar agendamento individual -->
+            <div id="add-agendamento-form" class="agendamento-form" style="display: none;">
+                <h2>Adicionar Agendamento</h2>
+                <label for="add-unidade">Unidade:</label>
+                <select id="add-unidade" class="data-input"></select>
+                <label for="add-horario">Horário:</label>
+                <select id="add-horario" class="data-input"></select>
+                <label for="add-modalidade">Modalidade:</label>
+                <select id="add-modalidade" class="data-input"></select>
+                <label for="add-personal">Personal:</label>
+                <select id="add-personal" class="data-input"></select>
+                <label for="add-data">Data:</label>
+                <input type="date" id="add-data" class="data-input">
+                <button class="save-button" onclick="addAgendamentos()">Salvar</button>
+                <button class="cancel-button" onclick="hideAddAgendamentoForm()">Cancelar</button>
+            </div>
+
+            <!-- Parte 4: Formulário para remover agendamento individual -->
+            <div id="remove-agendamento-form" class="agendamento-form" style="display: none;">
+                <h2>Remover Agendamento</h2>
+                <label for="remove-unidade">Unidade:</label>
+                <select id="remove-unidade" class="data-input"></select>
+                <label for="remove-horario">Horário:</label>
+                <select id="remove-horario" class="data-input"></select>
+                <label for="remove-personal">Personal:</label>
+                <select id="remove-personal" class="data-input"></select>
+                <label for="remove-data">Data:</label>
+                <input type="date" id="remove-data" class="data-input">
+                <button class="save-button" onclick="removeAgendamentos()">Remover</button>
+                <button class="cancel-button" onclick="hideRemoveAgendamentoForm()">Cancelar</button>
+            </div>
+
+            <!-- Parte 5: Formulário para adicionar agendamentos em massa -->
+            <div id="add-agendamento-massa-form" class="agendamento-form" style="display: none;">
+                <h2>Adicionar Agendamentos em Massa</h2>
+                <label for="add-massa-unidade">Unidade:</label>
+                <select id="add-massa-unidade" class="data-input"></select>
+                <label for="add-massa-turno">Turno:</label>
+                <select id="add-massa-turno" class="data-input">
+                    <option value="" disabled selected>Selecione</option>
+                    <option value="manha">Manhã</option>
+                    <option value="tarde">Tarde</option>
+                </select>
+                <label for="add-massa-modalidade">Modalidade:</label>
+                <select id="add-massa-modalidade" class="data-input">
+                    <option value="" disabled selected>Selecione uma Modalidade</option>
+                </select>
+                <label for="add-massa-personal">Personal:</label>
+                <select id="add-massa-personal" class="data-input">
+                    <option value="" disabled selected>Selecione um Personal</option>
+                </select>
+                <label for="add-massa-data-inicio">Data Início:</label>
+                <input type="date" id="add-massa-data-inicio" class="data-input">
+                <label for="add-massa-data-fim">Data Fim:</label>
+                <input type="date" id="add-massa-data-fim" class="data-input">
+                <button class="save-button" onclick="addAgendamentosMassa()">Salvar</button>
+                <button class="cancel-button" onclick="hideAddAgendamentoMassaForm()">Cancelar</button>
+            </div>
+
+            <!-- Parte 6: Formulário para remover agendamentos em massa -->
+            <div id="remove-agendamento-massa-form" class="agendamento-form" style="display: none;">
+                <h2>Remover Agendamentos em Massa</h2>
+                <label for="remove-massa-unidade">Unidade:</label>
+                <select id="remove-massa-unidade" class="data-input"></select>
+                <label for="remove-massa-turno">Turno:</label>
+                <select id="remove-massa-turno" class="data-input">
+                    <option value="" disabled selected>Selecione</option>
+                    <option value="manha">Manhã</option>
+                    <option value="tarde">Tarde</option>
+                </select>
+                <label for="remove-massa-personal">Personal:</label>
+                <select id="remove-massa-personal" class="data-input">
+                    <option value="" disabled selected>Selecione um Personal</option>
+                </select>
+                <label for="remove-massa-data-inicio">Data Início:</label>
+                <input type="date" id="remove-massa-data-inicio" class="data-input">
+                <label for="remove-massa-data-fim">Data Fim:</label>
+                <input type="date" id="remove-massa-data-fim" class="data-input">
+                <button class="save-button" onclick="removeAgendamentosMassa()">Remover</button>
+                <button class="cancel-button" onclick="hideRemoveAgendamentoMassaForm()">Cancelar</button>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/fetchLoggedUser.js"></script>
+    <script src="js/auxGerente.js"></script>
+    <script src="js/schedule.js"></script>
+    <script>
+        // Inicialização após o carregamento do DOM
+        document.addEventListener('DOMContentLoaded', () => {
+            // Loga o início da função
+            console.log('Evento DOMContentLoaded disparado');
+            // Verifica o checkRole
+            if (checkRole()) {
+                // Preenche os dados do usuário no cabeçalho
+                fetchLoggedUser();
+                // Preenche os selects de unidade
+                populateUnidadeSelects();
+                // Adiciona evento para atualizar personals quando a unidade mudar no filtro superior
+                document.getElementById('unidade-filter').addEventListener('change', async () => {
+                    const unidadeId = document.getElementById('unidade-filter').value;
+                    if (unidadeId) {
+                        await populatePersonalFilter(unidadeId);
+                    } else {
+                        document.getElementById('personal-filter').innerHTML = '<option value="" disabled selected>Selecione um Personal</option>';
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

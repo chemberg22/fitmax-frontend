@@ -1,0 +1,122 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitMax - Relatórios</title>
+    <link rel="stylesheet" href="stylereports.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <header>
+        <a href='index.html'><h1>FitMax</h1></a>
+    </header>
+
+    <main>
+        <section class="profile">
+            <div class="profile-icon">
+                <button onclick="logout()"><img class="icon-image" src="img/logout-button.png"></button>
+            </div>
+
+            <div class="profile-content">
+                <div class="profile-content1">
+                    <img class="user-image" src="img/user-image.png"></img>
+                </div>
+                <div class="profile-content2">
+                    <h2 id="user-role"></h2>
+                </div>
+                <div class="profile-content3">
+                    <h5 id="user-name"></h5>
+                </div>
+            </div>
+
+            <div class="profile-icon">
+                <img class="icon-image" src="img/notification-button.png">
+                <label class="switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </section>
+
+        <section class="main-menu">
+            <h1>Relatórios</h1>
+        </section>
+
+        <section>
+            <div class="search-bar">
+                <select id="report-type">
+                    <option selected value="alunos-modalidades">Relatório de Alunos x Agenda</option>
+                    <option value="alunos-planos">Relatório de Alunos x Planos</option>
+                    <option value="alunos-feedbacks">Relatório de Alunos x Feedbacks</option>
+                    <option value="personals-agenda">Relatório de Personals x Agenda</option>
+                    <option value="modalidades-agenda">Relatório de Modalidades x Agenda</option>
+                </select>
+                <select id="unidade-select" name="unidade-select">
+                    <option value="">Selecione a unidade</option>
+                </select>
+                <form>
+                    <label for="start-date"><div class="font-family">Data de Início:</div></label>
+                    <input type="date" id="start-date" name="start-date">
+                    <label for="end-date"><div class="font-family">Data de Término:</div></label>
+                    <input type="date" id="end-date" name="end-date">
+                </form>
+                <button id="generate-report" class="new-registration">Novo Relatório</button>
+            </div>
+        </section>
+
+        <section class="statistics">
+            <h2>Estatísticas Gerais</h2>
+            <div class="statistics-content">
+                <div class="stat-box">
+                    <h3>Total de Alunos</h3>
+                    <p id="total-alunos">150</p>
+                </div>
+                <div class="stats-box">
+                    <h3>Tipo de Aulas</h3>
+                    <p id="tipo-aulas">Yoga, Pilates, Musculação</p>
+                </div>
+                <div class="stat-box">
+                    <h3>Receita Mensal</h3>
+                    <p id="receita-mensal">R$ 25,000</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="report-chart" style="display: none" id="report-chart-container">
+            <h2>Alunos x Agendamentos</h2>
+            <div id="chart-explanation"></div>
+            <canvas id="alunosModalidadesChart"></canvas>            
+        </section>
+        <section class="report-chart" style="display: none" id="report-planos-chart-container">
+            <h2>Alunos x Planos</h2>
+            <div id="planos-chart-explanation"></div>
+            <canvas id="alunosPlanosChart"></canvas>            
+        </section>
+        <section class="report-chart" style="display: none" id="report-feedbacks-chart-container">
+            <h2>Média das Notas por Assunto</h2>
+            <div id="feedbacks-chart-explanation"></div>
+            <canvas id="mediaPorAssuntoChart"></canvas>
+
+            <h2 style="margin-top: 40px;">Média das Notas por Personal</h2>
+            <canvas id="mediaPorPersonalChart"></canvas>            
+        </section>
+        <section class="report-chart" style="display: none" id="report-personals-chart-container">
+            <h2>Percentual de Ocupação dos Personals</h2>
+            <div id="personals-chart-explanation"></div>
+            <canvas id="personalsAgendaChart"></canvas>
+        </section>
+        <section class="report-chart" style="display: none" id="report-modalidades-chart-container">
+            <h2>Percentual de Ocupação das Modalidades</h2>
+            <div id="modalidades-chart-explanation"></div>
+            <canvas id="modalidadesAgendaChart"></canvas>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <script src="js/fetchLoggedUser.js"></script>
+    <script src="js/auxGerente.js"></script>
+    <script src="js/reports.js"></script>
+</body>
+</html>
